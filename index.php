@@ -23,14 +23,36 @@
 		<?php
 		$row = $Title->find(['sh' => 1]);
 		?>
-		<a title="<?=$row['text'];?>" href="./index.php">
-			<div class="ti" style="background:url('./img/<?=$row['img'];?>'); background-size:cover;"></div><!--標題-->
+		<a title="<?= $row['text']; ?>" href="./index.php">
+			<div class="ti" style="background:url('./img/<?= $row['img']; ?>'); background-size:cover;"></div><!--標題-->
 		</a>
 		<div id="ms">
 			<div id="lf" style="float:left;">
 				<div id="menuput" class="dbor">
 					<!--主選單放此-->
 					<span class="t botli">主選單區</span>
+					<?php
+					$rows = $Menu->all(['sh' => 1, 'menu_id' => 0]);
+					foreach ($rows as $row) {
+					?>
+						<div class="mainmu"><a href="<?= $row['href']; ?>"><?= $row['text']; ?></a>
+						<?php
+						if ($Menu->count(['menu_id' => $row['id']]) > 0) {
+							$opts = $Menu->all(['menu_id' => $row['id']]);
+							foreach ($opts as $opt) {
+						?>
+								<div class="mw" style="display: none;">
+									<div class="mainmu2"><a href="<?= $opt['href']; ?>"><?= $opt['text']; ?></a></div>
+								</div>
+						<?php
+							}
+						}
+						?>
+						</div>
+					<?php
+					}
+					?>
+					
 				</div>
 				<div class="dbor" style="margin:3px; width:95%; height:20%; line-height:100px;">
 					<span class="t">進站總人數 :<?= $Total->find(1)['total']; ?></span>
@@ -66,16 +88,26 @@
 				<button style="width:100%; margin-left:auto; margin-right:auto; margin-top:2px; height:50px;" onclick="lo('?do=login')">管理登入</button>
 				<div style="width:89%; height:480px;" class="dbor">
 					<span class="t botli">校園映象區</span>
+					<div class="cent"><img src="./icon/up.jpg" onclick="pp(1)"></div>
+					<?php
+					$rows = $Image->all(['sh' => 1]);
+					foreach ($rows as $idx => $row) {
+					?>
+						<div class="im cent" id="ssaa<?= $idx; ?>"><img src="./img/<?= $row['img']; ?>" style="width:150px;height:103px"></div>
+					<?php
+					}
+					?>
+					<div class="cent"><img src="./icon/dn.jpg" onclick="pp(2)"></div>
 					<script>
-						var nowpage = 0,
-							num = 0;
+						var nowpage = 1,
+							num = <?= $Image->count(['sh' => 1]); ?>;
 
 						function pp(x) {
 							var s, t;
 							if (x == 1 && nowpage - 1 >= 0) {
 								nowpage--;
 							}
-							if (x == 2 && (nowpage + 1) * 3 <= num * 1 + 3) {
+							if (x == 2 && nowpage < (num - 3)) {
 								nowpage++;
 							}
 							$(".im").hide()
