@@ -21,7 +21,7 @@
 						<input type="hidden" name="id[]" value="<?= $row['id']; ?>">
 						<input type="checkbox" name="del[]" value="<?= $row['id']; ?>">
 					</td>
-					<td><input type="button" value="更新圖片" onclick="op('#cover','#cvr','./model/upload.php&table=<?= $do; ?>&id=<?= $row['id']; ?>')"></td>
+					<td><input type="button" value="更新圖片" onclick="op('#cover','#cvr','./model/upload.php?table=<?= $do; ?>&id=<?= $row['id']; ?>')"></td>
 				</tr>
 			<?php
 			}
@@ -30,7 +30,7 @@
 		<table style="margin-top:40px; width:70%;">
 			<tr>
 				<input type="hidden" name="table" value="<?= $do; ?>">
-				<td width="200px"><input type="button" onclick="op('#cover','#cvr','./model/<?= $do; ?>.php')" value="新增網站標題圖片"></td>
+				<td width="200px"><input type="button" onclick="op('#cover','#cvr','./model/<?= $do; ?>.php?table=<?=$do;?>')" value="新增網站標題圖片"></td>
 				<td class="cent"><input type="submit" value="修改確定"><input type="reset" value="重置"></td>
 			</tr>
 		</table>
